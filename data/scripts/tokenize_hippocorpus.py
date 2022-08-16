@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize
 from tqdm import tqdm
 
 nlp = spacy.load("en_core_web_sm")
-DATA_DIR = Path("../")
+DATA_DIR = Path(__file__).absolute().parent
 
 
 pair_ids = pd.read_json(DATA_DIR / "NIR.json").transpose()["pair_id"].unique()
@@ -73,13 +73,13 @@ def parse_tokens(article):
 
 tokens = {
     recAgnPairId: {
-        "recalled": parse_tokens(row["recalled_story"]),
-        "retold": parse_tokens(row["retold_story"]),
+        "pre-retold": parse_tokens(row["recalled_story"]),
+        "post-retold": parse_tokens(row["retold_story"]),
     }
     for recAgnPairId, row in tqdm(df.iterrows(), total=len(df), desc="Tokenizing")
 }
 articles = {
-    recAgnPairId: {"recalled": row["recalled_story"], "retold": row["retold_story"]}
+    recAgnPairId: {"pre-retold": row["recalled_story"], "post-retold": row["retold_story"]}
     for recAgnPairId, row in df.iterrows()
 }
 with open(DATA_DIR / "tokens.json", "w") as f:
