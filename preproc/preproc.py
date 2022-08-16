@@ -135,7 +135,6 @@ pyarrow.parquet.write_table(table_write, DATA_DIR / "article.parquet")
 
 # Tokenize event
 max_nodes = max([len(vv) for v in graphs.values() for vv in v.values()])
-max_nodes
 inputs = []
 for event_id, row in tqdm(event_df.iterrows(), total=len(event_df), desc="Processing event"):
     if row["story_type"] == "pre-retold":

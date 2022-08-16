@@ -91,8 +91,7 @@ class Classifier(BaseModule):
         hidden_states = self.dense(hidden_states)
         hidden_states = torch.tanh(hidden_states)
         hidden_states = self.dropout(hidden_states)
-        output = self.out_proj(hidden_states)
-        return output
+        return self.out_proj(hidden_states)
 
 
 class MLP(nn.Module):
