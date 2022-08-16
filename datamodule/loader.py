@@ -26,13 +26,13 @@ class Collater:
                 # check to make sure that the elements in batch have consistent size
                 it = iter(batch)
                 elem_size = len(next(it))
-                if not all(len(elem) == elem_size for elem in it):
+                if any(len(elem) != elem_size for elem in it):
                     raise RuntimeError("each element in list of batch should be of equal size")
                 transposed = zip(*batch)
                 return [self(samples, outer=False) for samples in transposed]
 
         if isinstance(elem, (Data, HeteroData)):
-            return Batch.from_data_list(batch, self.follow_batch, self.exclude_keys)
+            return Batch.from_data_list(batch)
         elif isinstance(elem, torch.Tensor):
             out = None
             if torch.utils.data.get_worker_info() is not None:
@@ -47,7 +47,7 @@ class Collater:
             and elem_type.__name__ != "str_"
             and elem_type.__name__ != "string_"
         ):
-            if elem_type.__name__ == "ndarray" or elem_type.__name__ == "memmap":
+            if elem_type.__name__ in ["ndarray", "memmap"]:
                 # array of string classes and object
                 if np_str_obj_array_pattern.search(elem.dtype.str) is not None:
                     raise TypeError(default_collate_err_msg_format.format(elem.dtype))
@@ -67,7 +67,7 @@ class Collater:
             # check to make sure that the elements in batch have consistent size
             it = iter(batch)
             elem_size = len(next(it))
-            if not all(len(elem) == elem_size for elem in it):
+            if any(len(elem) != elem_size for elem in it):
                 return batch
             return self([self(samples, outer=False) for samples in batch], outer=False)
 
@@ -85,13 +85,13 @@ class DataLoader(BaseDataLoader):
         **kwargs,
     ):
         def wrap(batch):
-            return ori_collate_fn(Collater(follow_batch, exclude_keys)(batch))
+            return ori_collate_fn(Collater()(batch))
 
         if "collate_fn" in kwargs:
             ori_collate_fn = kwargs.pop("collate_fn")
             collate_fn = wrap
         else:
-            collate_fn = Collater(follow_batch, exclude_keys)
+            collate_fn = Collater()
 
         # Save for PyTorch Lightning:
         self.follow_batch = follow_batch
