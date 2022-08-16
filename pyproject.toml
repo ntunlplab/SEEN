@@ -1,0 +1,19 @@
+[tool.black]
+line-length = 100
+target-version = ['py39']
+skip-magic-trailing-comma = true
+extend-exclude = '''
+/(
+  | lightning_logs
+  | tb_logs
+  | wandb_logs
+)/
+'''
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 100
+skip_glob = ['**/lightning_logs/*', '**/tb_logs/*', '**/wandb_logs/*']
