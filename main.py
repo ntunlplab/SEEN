@@ -26,7 +26,7 @@ def main(args: Arguments):
 
     # init model
     if args.do_train:
-        model: BaseModel = model_class(pretrained_path=args.experiment.pretrained_path)
+        model: BaseModel = model_class(pretrained_path=args.pretrained_path)
         main_metric = f"val_{model.METRIC_CLASS.MAIN_EVAL_METRIC}"
         callback = Checkpoint(
             dirpath=checkpoint_dir,
@@ -39,9 +39,7 @@ def main(args: Arguments):
         )
     else:
         model_path = args.test_model_path if args.test_model_path else best_model_path
-        model: BaseModel = model_class.load_from_checkpoint(
-            model_path,
-        )
+        model: BaseModel = model_class.load_from_checkpoint(model_path)
         callback = None
 
     trainer = pl.Trainer(

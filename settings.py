@@ -8,33 +8,22 @@ from pydantic import BaseModel
 from pytorch_lightning.loggers import TensorBoardLogger
 
 from datamodule.event_graph import NIRDataModule
-from modeling.seen import SEENLongformer, SEENLongformerLarge
+from modeling.seen import SEENLongformer as SEENLongformerModel
+from modeling.seen import SEENLongformerLarge as SEENLongformerLargeModel
 
 
 class ExperimentSetting(BaseModel):
     datamodule: Callable
     model: Callable
-    pretrained_path: Optional[str] = False
 
     class Config:
         arbitrary_types_allowed = True
 
 
-PRETRAINED_MODEL_PATH = ""
-PRETRAINED_LARGE_MODEL_PATH = ""
+SEENLongformer = ExperimentSetting(datamodule=NIRDataModule, model=SEENLongformerModel)
+SEENLongformerLarge = SEENLongformer.copy({"model": SEENLongformerLargeModel})
 
-SEENLongformer = ExperimentSetting(datamodule=NIRDataModule, model=SEENLongformer)
-SEENLongformerLarge = SEENLongformer.copy(update={"model": SEENLongformerLarge})
-SEENLongformerPretrained = SEENLongformer.copy(update={"pretrained_path": PRETRAINED_MODEL_PATH})
-SEENLongformerPretrained = SEENLongformerLarge.copy(
-    update={"pretrained_path": PRETRAINED_LARGE_MODEL_PATH}
-)
-EXP_MAP = {
-    "SEENLongformer": SEENLongformer,
-    "SEENLongformerLarge": SEENLongformerLarge,
-    "SEENLongformerPretrained": SEENLongformerPretrained,
-    "SEENLongformerPretrained": SEENLongformerPretrained,
-}
+EXP_MAP = {"SEENLongformer": SEENLongformer, "SEENLongformerLarge": SEENLongformerLarge}
 
 
 BASIC_BATCH = 8
@@ -60,6 +49,7 @@ class Arguments:
     group: Optional[str] = field(default=None)
     exp_name: str = field(default="SEENLongformer")
     test_model_path: str = field(default="")
+    pretrained_path: str = field(default="")
 
     def __post_init__(self):
         pl.seed_everything(self.seed, workers=True)
