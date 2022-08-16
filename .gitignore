@@ -1,3 +1,9 @@
 .python-version
 *.csv
+*.tsv
 *.json
+*.parquet
+__pycache__
+.idea
+.vscode
+tb_logs

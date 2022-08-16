@@ -1,8 +1,8 @@
 # Environment
 - OS: Linux/Debian
 - Python: 3.9.10
-- Pytorch: 1.12.1
-- CUDA: 11.7
+- Pytorch: 1.11.0
+- CUDA: 11.5
 
 Commend of package installation
 ```shell
