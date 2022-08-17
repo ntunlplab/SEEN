@@ -22,7 +22,7 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 #### Please refer to the `data/script` folder for data constrcion scripts.
 #### Please refer to the `preproc` folder for data preprocessing scripts.
 
-# Use SEEN
+# SEEN Usage
 We pre-define four experiments setting for coonvenience.
 - SEENLongformer
 - SEENLongformerLarge
@@ -54,6 +54,7 @@ python main.py \
     --do_test \
     --exp_name=$exp \
     --val_batch_size=$VAL_BATCH_SIZE
+    --test_model_path=$TEST_MODEL_PATH # pass this value to test specific checkpoint)
 ```
 
 ## Model Checkpoints
