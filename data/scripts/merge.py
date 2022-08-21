@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-DATA_DIR = Path(__file__).absolute().parent
+DATA_DIR = Path(__file__).absolute().parent.parent
 
 nir = json.load(open(DATA_DIR / "NIR.json"))
 tokens = json.load(open(DATA_DIR / "tokens.json"))

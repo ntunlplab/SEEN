@@ -5,8 +5,6 @@ This repo provides the source code & data of our paper SEEN: Structured Event En
 ```bib
 ```
 
-
-
 # Dependency
 - OS: Linux/Debian
 - Python: 3.9.10
@@ -15,7 +13,12 @@ This repo provides the source code & data of our paper SEEN: Structured Event En
 
 Command of package installation
 ```shell
-pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu115
+pip install torch==1.11.0 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu115
+pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.11.0+cu115.html
+pip install -r requirements.txt
+# cached-path > 1.1.2 has below bug 
+# AttributeError: module 'cached_path' has no attribute 'file_friendly_logging'
+pip install cached-path==1.1.2
 ```
 
 # Data Processing

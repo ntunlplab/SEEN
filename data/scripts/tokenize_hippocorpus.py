@@ -7,7 +7,7 @@ from nltk.tokenize import sent_tokenize
 from tqdm import tqdm
 
 nlp = spacy.load("en_core_web_sm")
-DATA_DIR = Path(__file__).absolute().parent
+DATA_DIR = Path(__file__).absolute().parent.parent
 
 
 pair_ids = pd.read_json(DATA_DIR / "NIR.json").transpose()["pair_id"].unique()

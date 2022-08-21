@@ -219,7 +219,7 @@ class LongformerGAT(BaseModule, ModuleUtilsMixin):
         # We can provide a self-attention mask of dimensions [batch_size, from_seq_length, to_seq_length]
         # ourselves in which case we just need to make it broadcastable to all heads.
         extended_attention_mask: torch.Tensor = self.get_extended_attention_mask(
-            attention_mask, input_shape
+            attention_mask, input_shape, self.device
         )[:, 0, 0, :]
 
         for k, v in kwargs.items():
@@ -231,7 +231,9 @@ class LongformerGAT(BaseModule, ModuleUtilsMixin):
             _, _, kwargs[k] = self._pad_to_window_size(
                 input_ids=input_ids, attention_mask=kwargs[k], pad_token_id=self.config.pad_token_id
             )
-            kwargs[k] = self.get_extended_attention_mask(kwargs[k], input_shape)[:, 0, 0, :]
+            kwargs[k] = self.get_extended_attention_mask(kwargs[k], input_shape, self.device)[
+                :, 0, 0, :
+            ]
 
         embedding_output = self.embeddings(input_ids=input_ids)
         return self.encoder(
