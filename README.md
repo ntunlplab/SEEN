@@ -15,7 +15,7 @@ This repo provides the source code & data of our paper SEEN: Structured Event En
 
 Command of package installation
 ```shell
-pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu116
+pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu115
 ```
 
 # Data Processing

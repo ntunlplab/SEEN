@@ -21,7 +21,7 @@ class ExperimentSetting(BaseModel):
 
 
 SEENLongformer = ExperimentSetting(datamodule=NIRDataModule, model=SEENLongformerModel)
-SEENLongformerLarge = SEENLongformer.copy({"model": SEENLongformerLargeModel})
+SEENLongformerLarge = SEENLongformer.copy(update={"model": SEENLongformerLargeModel})
 
 EXP_MAP = {"SEENLongformer": SEENLongformer, "SEENLongformerLarge": SEENLongformerLarge}
 
